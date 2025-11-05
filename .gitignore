@@ -36,6 +36,8 @@ data/processed/*.pkl
 # Model checkpoints (large files)
 checkpoints/*.pt
 checkpoints/*.pth
+results/checkpoints/*.pt
+results/checkpoints/*.pth
 
 # Training logs (can be large)
 results/*.log
