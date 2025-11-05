@@ -1,0 +1,59 @@
+2025-11-03 12:49:45,701 [INFO] ================================================================================
+2025-11-03 12:49:45,701 [INFO] PHASE 3: ENHANCED REGULARIZATION - MDAF_MAMBA_TAOBAO
+2025-11-03 12:49:45,701 [INFO] ================================================================================
+2025-11-03 12:49:45,701 [INFO] 
+Configuration:
+2025-11-03 12:49:45,701 [INFO]   Model: mamba
+2025-11-03 12:49:45,701 [INFO]   Epochs: 15
+2025-11-03 12:49:45,701 [INFO]   Batch Size: 2048
+2025-11-03 12:49:45,701 [INFO]   Learning Rate: 0.0003
+2025-11-03 12:49:45,701 [INFO]   Dropout: 0.3
+2025-11-03 12:49:45,701 [INFO]   Weight Decay: 5e-05
+2025-11-03 12:49:45,701 [INFO]   Label Smoothing: 0.1
+2025-11-03 12:49:45,701 [INFO]   Gradient Clip Norm: 1.0
+2025-11-03 12:49:45,701 [INFO]   Warmup Epochs: 2
+2025-11-03 12:49:45,701 [INFO]   Early Stopping Patience: 5
+2025-11-03 12:49:45,701 [INFO]   Random Seed: 42
+2025-11-03 12:49:45,702 [INFO] 
+1. Loading Taobao metadata...
+2025-11-03 12:49:45,702 [INFO]    Vocabulary sizes:
+2025-11-03 12:49:45,702 [INFO]       Items: 335,164
+2025-11-03 12:49:45,702 [INFO]       Categories: 5,480
+2025-11-03 12:49:45,702 [INFO]       Users: 577,482
+2025-11-03 12:49:45,702 [INFO]    Max sequence length: 50
+2025-11-03 12:49:45,702 [INFO] 
+2. Device: cpu
+2025-11-03 12:49:45,702 [INFO] 
+3. Creating dataloaders...
+2025-11-03 12:49:46,530 [INFO]    Train samples: 1,052,081
+2025-11-03 12:49:46,530 [INFO]    Val samples: 225,446
+2025-11-03 12:49:46,530 [INFO]    Train batches: 514
+2025-11-03 12:49:46,530 [INFO]    Val batches: 111
+2025-11-03 12:49:46,530 [INFO] 
+4. Creating MDAF_MAMBA_TAOBAO model...
+2025-11-03 12:49:47,053 [INFO]    Total parameters: 45,969,365
+2025-11-03 12:49:47,053 [INFO]    Trainable parameters: 45,969,365
+2025-11-03 12:49:47,477 [INFO] 
+5. Training components:
+2025-11-03 12:49:47,477 [INFO]    Optimizer: Adam (lr=0.0003, weight_decay=5e-05)
+2025-11-03 12:49:47,477 [INFO]    LR Scheduler: Warmup(2 epochs) + CosineAnnealing
+2025-11-03 12:49:47,477 [INFO]    Loss: BCELoss + LabelSmoothing(0.1)
+2025-11-03 12:49:47,477 [INFO]    Gradient Clipping: Max Norm = 1.0
+2025-11-03 12:49:47,477 [INFO] 
+6. Starting training...
+2025-11-03 12:49:47,477 [INFO] ================================================================================
+2025-11-03 12:49:47,477 [INFO] 
+Epoch 1/15
+2025-11-03 12:49:47,477 [INFO] --------------------------------------------------------------------------------
+✅ Taobao 데이터셋 로딩 완료
+   - 데이터 크기: 1,052,081 rows
+   - 사용자 수: 192,385
+   - 상품 수: 257,582
+   - Max sequence length: 50
+✅ Taobao 데이터셋 로딩 완료
+   - 데이터 크기: 225,446 rows
+   - 사용자 수: 112,014
+   - 상품 수: 106,495
+   - Max sequence length: 50
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 20 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

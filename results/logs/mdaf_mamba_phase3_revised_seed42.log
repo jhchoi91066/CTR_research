@@ -1,0 +1,62 @@
+2025-11-03 23:32:08,374 [INFO] ============================================================
+2025-11-03 23:32:08,374 [INFO] Training MDAF_MAMBA_TAOBAO
+2025-11-03 23:32:08,374 [INFO] ============================================================
+2025-11-03 23:32:08,374 [INFO] 
+1. Loading Taobao metadata...
+2025-11-03 23:32:08,374 [INFO]    Vocabulary sizes:
+2025-11-03 23:32:08,374 [INFO]       Items: 335,164
+2025-11-03 23:32:08,374 [INFO]       Categories: 5,480
+2025-11-03 23:32:08,374 [INFO]       Users: 577,482
+2025-11-03 23:32:08,374 [INFO]    Max sequence length: 50
+2025-11-03 23:32:08,387 [INFO] 
+2. Device: mps
+2025-11-03 23:32:08,387 [INFO] 
+3. Creating dataloaders...
+2025-11-03 23:32:09,590 [INFO]    Train batches: 514
+2025-11-03 23:32:09,590 [INFO]    Val batches: 111
+2025-11-03 23:32:09,590 [INFO] 
+4. Creating MDAF_MAMBA_TAOBAO model...
+2025-11-03 23:32:10,242 [INFO]    Model parameters: 45,969,365
+2025-11-03 23:32:10,242 [INFO] 
+   Hyperparameters:
+2025-11-03 23:32:10,242 [INFO]       Learning rate: 0.0003
+2025-11-03 23:32:10,242 [INFO]       Dropout: 0.25
+2025-11-03 23:32:10,242 [INFO]       Weight decay: 3e-05
+2025-11-03 23:32:10,242 [INFO]       Label smoothing: 0.05
+2025-11-03 23:32:10,242 [INFO]       Gradient clip norm: 1.0
+2025-11-03 23:32:10,242 [INFO]       Warmup epochs: 2
+2025-11-03 23:32:10,758 [INFO] 
+5. Starting training...
+2025-11-03 23:32:10,759 [INFO] 
+============================================================
+2025-11-03 23:32:10,759 [INFO] Epoch 1/5
+2025-11-03 23:32:10,759 [INFO] ============================================================
+/Users/jinhochoi/Desktop/dev/Research/venv/lib/python3.11/site-packages/torch/utils/data/dataloader.py:684: UserWarning: 'pin_memory' argument is set as true but not supported on MPS now, then device pinned memory won't be used.
+  warnings.warn(warn_msg)
+✅ Taobao 데이터셋 로딩 완료
+   - 데이터 크기: 1,052,081 rows
+   - 사용자 수: 192,385
+   - 상품 수: 257,582
+   - Max sequence length: 50
+✅ Taobao 데이터셋 로딩 완료
+   - 데이터 크기: 225,446 rows
+   - 사용자 수: 112,014
+   - 상품 수: 106,495
+   - Max sequence length: 50
+2025-11-03 23:40:49,738 [INFO]    Batch [200/514] Loss: 0.2567
+2025-11-03 23:48:28,169 [INFO]    Batch [400/514] Loss: 0.2418
+2025-11-03 23:52:40,016 [INFO] 
+Train - Loss: 0.2651, AUC: 0.5265
+/Users/jinhochoi/Desktop/dev/Research/venv/lib/python3.11/site-packages/torch/utils/data/dataloader.py:684: UserWarning: 'pin_memory' argument is set as true but not supported on MPS now, then device pinned memory won't be used.
+  warnings.warn(warn_msg)
+2025-11-03 23:54:42,293 [INFO] Val   - Loss: 0.2520, AUC: 0.5814
+2025-11-03 23:54:42,295 [INFO] Gate  - Mean: 0.1821, Std: 0.1190, Range: [0.0994, 0.5761]
+2025-11-03 23:54:42,295 [INFO] Gap   - Train-Val: -0.0549
+2025-11-03 23:54:43,364 [INFO] ✓ New best model saved! Val AUC: 0.5814
+2025-11-03 23:54:43,368 [INFO] 
+============================================================
+2025-11-03 23:54:43,368 [INFO] Epoch 2/5
+2025-11-03 23:54:43,368 [INFO] ============================================================
+2025-11-04 12:01:21,014 [INFO]    Batch [200/514] Loss: 0.2505
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 20 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

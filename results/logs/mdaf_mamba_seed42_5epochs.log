@@ -1,0 +1,103 @@
+2025-11-01 10:53:38,052 [INFO] ============================================================
+2025-11-01 10:53:38,052 [INFO] Training MDAF_MAMBA_TAOBAO
+2025-11-01 10:53:38,052 [INFO] ============================================================
+2025-11-01 10:53:38,052 [INFO] 
+1. Loading Taobao metadata...
+2025-11-01 10:53:38,052 [INFO]    Vocabulary sizes:
+2025-11-01 10:53:38,052 [INFO]       Items: 335,164
+2025-11-01 10:53:38,052 [INFO]       Categories: 5,480
+2025-11-01 10:53:38,052 [INFO]       Users: 577,482
+2025-11-01 10:53:38,052 [INFO]    Max sequence length: 50
+2025-11-01 10:53:38,062 [INFO] 
+2. Device: mps
+2025-11-01 10:53:38,062 [INFO] 
+3. Creating dataloaders...
+2025-11-01 10:53:38,924 [INFO]    Train batches: 514
+2025-11-01 10:53:38,924 [INFO]    Val batches: 111
+2025-11-01 10:53:38,924 [INFO] 
+4. Creating MDAF_MAMBA_TAOBAO model...
+2025-11-01 10:53:39,498 [INFO]    Model parameters: 45,969,365
+2025-11-01 10:53:39,961 [INFO] 
+5. Starting training...
+2025-11-01 10:53:39,961 [INFO] 
+============================================================
+2025-11-01 10:53:39,961 [INFO] Epoch 1/5
+2025-11-01 10:53:39,961 [INFO] ============================================================
+/Users/jinhochoi/Desktop/dev/Research/venv/lib/python3.11/site-packages/torch/utils/data/dataloader.py:684: UserWarning: 'pin_memory' argument is set as true but not supported on MPS now, then device pinned memory won't be used.
+  warnings.warn(warn_msg)
+✅ Taobao 데이터셋 로딩 완료
+   - 데이터 크기: 1,052,081 rows
+   - 사용자 수: 192,385
+   - 상품 수: 257,582
+   - Max sequence length: 50
+✅ Taobao 데이터셋 로딩 완료
+   - 데이터 크기: 225,446 rows
+   - 사용자 수: 112,014
+   - 상품 수: 106,495
+   - Max sequence length: 50
+2025-11-01 11:01:50,892 [INFO]    Batch [200/514] Loss: 0.1880
+2025-11-01 11:09:09,943 [INFO]    Batch [400/514] Loss: 0.1682
+2025-11-01 11:13:20,027 [INFO] 
+Train - Loss: 0.1960, AUC: 0.5410
+/Users/jinhochoi/Desktop/dev/Research/venv/lib/python3.11/site-packages/torch/utils/data/dataloader.py:684: UserWarning: 'pin_memory' argument is set as true but not supported on MPS now, then device pinned memory won't be used.
+  warnings.warn(warn_msg)
+2025-11-01 11:15:22,560 [INFO] Val   - Loss: 0.1880, AUC: 0.5829
+2025-11-01 11:15:22,562 [INFO] Gate  - Mean: 0.3003, Std: 0.0396, Range: [0.1157, 0.4704]
+2025-11-01 11:15:23,525 [INFO] ✓ New best model saved! Val AUC: 0.5829
+2025-11-01 11:15:23,525 [INFO] 
+============================================================
+2025-11-01 11:15:23,525 [INFO] Epoch 2/5
+2025-11-01 11:15:23,525 [INFO] ============================================================
+2025-11-01 11:38:56,717 [INFO]    Batch [200/514] Loss: 0.1770
+2025-11-01 12:18:03,812 [INFO]    Batch [400/514] Loss: 0.1981
+2025-11-01 12:22:38,193 [INFO] 
+Train - Loss: 0.1824, AUC: 0.6643
+/Users/jinhochoi/Desktop/dev/Research/venv/lib/python3.11/site-packages/torch/utils/data/dataloader.py:684: UserWarning: 'pin_memory' argument is set as true but not supported on MPS now, then device pinned memory won't be used.
+  warnings.warn(warn_msg)
+2025-11-01 12:24:47,798 [INFO] Val   - Loss: 0.1916, AUC: 0.5703
+2025-11-01 12:24:47,799 [INFO] Gate  - Mean: 0.3799, Std: 0.0469, Range: [0.1139, 0.7434]
+2025-11-01 12:24:47,799 [INFO] Patience: 1/5
+2025-11-01 12:24:47,799 [INFO] 
+============================================================
+2025-11-01 12:24:47,799 [INFO] Epoch 3/5
+2025-11-01 12:24:47,799 [INFO] ============================================================
+2025-11-01 12:33:17,383 [INFO]    Batch [200/514] Loss: 0.1646
+2025-11-01 12:40:22,743 [INFO]    Batch [400/514] Loss: 0.1782
+2025-11-01 12:44:45,153 [INFO] 
+Train - Loss: 0.1665, AUC: 0.7723
+/Users/jinhochoi/Desktop/dev/Research/venv/lib/python3.11/site-packages/torch/utils/data/dataloader.py:684: UserWarning: 'pin_memory' argument is set as true but not supported on MPS now, then device pinned memory won't be used.
+  warnings.warn(warn_msg)
+2025-11-01 12:46:48,401 [INFO] Val   - Loss: 0.2106, AUC: 0.5576
+2025-11-01 12:46:48,403 [INFO] Gate  - Mean: 0.4315, Std: 0.0534, Range: [0.1594, 0.7123]
+2025-11-01 12:46:48,403 [INFO] Patience: 2/5
+2025-11-01 12:46:48,403 [INFO] 
+============================================================
+2025-11-01 12:46:48,403 [INFO] Epoch 4/5
+2025-11-01 12:46:48,403 [INFO] ============================================================
+2025-11-01 13:17:45,306 [INFO]    Batch [200/514] Loss: 0.1603
+2025-11-01 13:25:32,123 [INFO]    Batch [400/514] Loss: 0.1426
+2025-11-01 13:30:06,124 [INFO] 
+Train - Loss: 0.1506, AUC: 0.8368
+/Users/jinhochoi/Desktop/dev/Research/venv/lib/python3.11/site-packages/torch/utils/data/dataloader.py:684: UserWarning: 'pin_memory' argument is set as true but not supported on MPS now, then device pinned memory won't be used.
+  warnings.warn(warn_msg)
+2025-11-01 13:32:18,349 [INFO] Val   - Loss: 0.2435, AUC: 0.5542
+2025-11-01 13:32:18,350 [INFO] Gate  - Mean: 0.4473, Std: 0.0622, Range: [0.2662, 0.7529]
+2025-11-01 13:32:18,351 [INFO] Patience: 3/5
+2025-11-01 13:32:18,351 [INFO] 
+============================================================
+2025-11-01 13:32:18,351 [INFO] Epoch 5/5
+2025-11-01 13:32:18,351 [INFO] ============================================================
+2025-11-01 13:39:44,934 [INFO]    Batch [200/514] Loss: 0.1455
+2025-11-01 14:03:58,254 [INFO]    Batch [400/514] Loss: 0.1629
+2025-11-01 14:14:39,035 [INFO] 
+Train - Loss: 0.1320, AUC: 0.8848
+/Users/jinhochoi/Desktop/dev/Research/venv/lib/python3.11/site-packages/torch/utils/data/dataloader.py:684: UserWarning: 'pin_memory' argument is set as true but not supported on MPS now, then device pinned memory won't be used.
+  warnings.warn(warn_msg)
+2025-11-01 14:16:46,886 [INFO] Val   - Loss: 0.2921, AUC: 0.5513
+2025-11-01 14:16:46,888 [INFO] Gate  - Mean: 0.4059, Std: 0.0903, Range: [0.1872, 0.7085]
+2025-11-01 14:16:46,888 [INFO] Patience: 4/5
+2025-11-01 14:16:46,888 [INFO] 
+============================================================
+2025-11-01 14:16:46,888 [INFO] Training completed!
+2025-11-01 14:16:46,888 [INFO] Best validation AUC: 0.5829
+2025-11-01 14:16:46,888 [INFO] ============================================================

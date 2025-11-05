@@ -50,13 +50,35 @@ This project implements and evaluates various deep learning models for CTR predi
 
 ## Performance Results
 
-| Model | AUC | Status |
-|-------|-----|--------|
-| AutoInt | 0.7802 | ✅ Complete |
-| DCNv2 | 0.7722 | ✅ Complete |
-| DeepFM | - | ✅ Complete |
-| BST | 0.5711 | 🔧 Debugging |
-| MDAF | - | 📋 Planned |
+### ⚠️ Important Note on Dataset Strategy
+This research uses **two datasets strategically** to validate different aspects of MDAF:
+- **Criteo**: Tests static feature interaction capability (DCNv3 component)
+- **Taobao**: Tests sequential behavior modeling capability (Mamba4Rec component)
+
+**Performance comparison is only valid within the same dataset!**
+
+### Criteo Dataset Results (Feature Interaction)
+
+| Model | AUC | Status | Purpose |
+|-------|-----|--------|---------|
+| AutoInt | 0.7802 | ✅ Complete | Attention baseline |
+| DCNv2 | 0.7722 | ✅ Complete | Cross Network baseline |
+| xDeepFM | - | ✅ Complete | CIN baseline |
+| DeepFM | - | ✅ Complete | FM baseline |
+| DCNv3 (단독) | - | 📋 Planned | MDAF component |
+| MDAF | - | 📋 Planned | Target model |
+
+### Taobao Dataset Results (Sequential Modeling)
+
+| Model | AUC | Status | Purpose |
+|-------|-----|--------|---------|
+| BST | 0.5711 | ⚠️ Needs baseline | Transformer baseline |
+| AutoInt (Taobao) | - | 🔧 In Progress | Cross-validation |
+| DCNv2 (Taobao) | - | 🔧 In Progress | Cross-validation |
+| Mamba4Rec (단독) | - | 📋 Planned | MDAF component |
+| MDAF | - | 📋 Planned | Target model |
+
+**Current Priority**: Train AutoInt/DCNv2 on Taobao to establish fair baselines
 
 ## Installation
 
@@ -103,11 +125,29 @@ python experiments/debug_bst_embeddings.py
 
 See [docs/research_roadmap.md](docs/research_roadmap.md) for detailed research plan and progress.
 
-## Current Issues
+## Current Status & Next Steps
 
-- BST model underperforming (~0.21 AUC gap compared to other baselines)
-- Investigating category embedding integration
-- See [results/bst_analysis_report.md](results/bst_analysis_report.md) for detailed analysis
+### ✅ Completed
+- ✅ Criteo dataset preprocessing
+- ✅ Taobao dataset preprocessing
+- ✅ Criteo baselines: AutoInt, DCNv2, xDeepFM, DeepFM
+- ✅ Taobao baseline: BST (0.5711 AUC)
+- ✅ BST implementation verification (embeddings learning correctly)
+
+### 🔧 In Progress
+- 🔧 Training AutoInt on Taobao dataset
+- 🔧 Training DCNv2 on Taobao dataset
+
+### 📋 Planned
+- 📋 DCNv3 implementation (Week 9-10)
+- 📋 Mamba4Rec implementation (Week 11-12)
+- 📋 MDAF integration (Week 13-14)
+- 📋 Ablation studies on both datasets
+
+### ⚠️ Key Findings
+- **Dataset Strategy Clarified**: Using Criteo and Taobao to validate different MDAF components
+- **BST Analysis**: Category embeddings are learning correctly (see [results/final_analysis.md](results/final_analysis.md))
+- **Next Priority**: Establish fair Taobao baselines before implementing MDAF
 
 ## License
 

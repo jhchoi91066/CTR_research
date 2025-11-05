@@ -102,7 +102,7 @@ def get_dataloader(data_path, metadata_path, batch_size=1024, shuffle=True, num_
         num_workers: 워커 수
 
     Returns:
-        DataLoader
+        DataLoader, metadata
     """
     dataset = CriteoDataset(data_path, metadata_path)
 
@@ -115,7 +115,13 @@ def get_dataloader(data_path, metadata_path, batch_size=1024, shuffle=True, num_
         pin_memory=True  # GPU 학습 시 성능 향상
     )
 
-    return dataloader
+    # Prepare metadata dict for model initialization
+    metadata = {
+        'num_features': dataset.num_features,
+        'cat_vocab': dataset.metadata['cat_vocab']
+    }
+
+    return dataloader, metadata
 
 
 if __name__ == '__main__':

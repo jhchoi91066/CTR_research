@@ -1,0 +1,60 @@
+2025-11-02 16:00:07,222 [INFO] ================================================================================
+2025-11-02 16:00:07,222 [INFO] PHASE 3: ENHANCED REGULARIZATION - MDAF_MAMBA_TAOBAO
+2025-11-02 16:00:07,222 [INFO] ================================================================================
+2025-11-02 16:00:07,222 [INFO] 
+Configuration:
+2025-11-02 16:00:07,222 [INFO]   Model: mamba
+2025-11-02 16:00:07,222 [INFO]   Epochs: 15
+2025-11-02 16:00:07,222 [INFO]   Batch Size: 2048
+2025-11-02 16:00:07,222 [INFO]   Learning Rate: 0.0003
+2025-11-02 16:00:07,222 [INFO]   Dropout: 0.3
+2025-11-02 16:00:07,222 [INFO]   Weight Decay: 5e-05
+2025-11-02 16:00:07,222 [INFO]   Label Smoothing: 0.1
+2025-11-02 16:00:07,222 [INFO]   Gradient Clip Norm: 1.0
+2025-11-02 16:00:07,222 [INFO]   Warmup Epochs: 2
+2025-11-02 16:00:07,222 [INFO]   Early Stopping Patience: 5
+2025-11-02 16:00:07,222 [INFO]   Random Seed: 42
+2025-11-02 16:00:07,222 [INFO] 
+1. Loading Taobao metadata...
+2025-11-02 16:00:07,222 [INFO]    Vocabulary sizes:
+2025-11-02 16:00:07,222 [INFO]       Items: 335,164
+2025-11-02 16:00:07,222 [INFO]       Categories: 5,480
+2025-11-02 16:00:07,222 [INFO]       Users: 577,482
+2025-11-02 16:00:07,222 [INFO]    Max sequence length: 50
+2025-11-02 16:00:07,235 [INFO] 
+2. Device: mps
+2025-11-02 16:00:07,235 [INFO] 
+3. Creating dataloaders...
+2025-11-02 16:00:08,049 [INFO]    Train samples: 1,052,081
+2025-11-02 16:00:08,049 [INFO]    Val samples: 225,446
+2025-11-02 16:00:08,049 [INFO]    Train batches: 514
+2025-11-02 16:00:08,049 [INFO]    Val batches: 111
+2025-11-02 16:00:08,049 [INFO] 
+4. Creating MDAF_MAMBA_TAOBAO model...
+2025-11-02 16:00:08,666 [INFO]    Total parameters: 45,969,365
+2025-11-02 16:00:08,666 [INFO]    Trainable parameters: 45,969,365
+2025-11-02 16:00:09,128 [INFO] 
+5. Training components:
+2025-11-02 16:00:09,128 [INFO]    Optimizer: Adam (lr=0.0003, weight_decay=5e-05)
+2025-11-02 16:00:09,128 [INFO]    LR Scheduler: Warmup(2 epochs) + CosineAnnealing
+2025-11-02 16:00:09,128 [INFO]    Loss: BCELoss + LabelSmoothing(0.1)
+2025-11-02 16:00:09,128 [INFO]    Gradient Clipping: Max Norm = 1.0
+2025-11-02 16:00:09,128 [INFO] 
+6. Starting training...
+2025-11-02 16:00:09,128 [INFO] ================================================================================
+2025-11-02 16:00:09,128 [INFO] 
+Epoch 1/15
+2025-11-02 16:00:09,128 [INFO] --------------------------------------------------------------------------------
+2025-11-03 07:44:45,333 [INFO]    Batch [200/514] Loss: 0.3317, LR: 5.84e-05
+2025-11-03 11:19:42,086 [INFO]    Batch [400/514] Loss: 0.3060, LR: 1.17e-04
+2025-11-03 11:51:30,491 [INFO] 
+  Train - Loss: 0.3799, AUC: 0.5121, LogLoss: 0.2939
+2025-11-03 12:28:49,035 [INFO]   Val   - Loss: 0.3075, AUC: 0.5698, LogLoss: 0.2016
+2025-11-03 12:28:49,039 [INFO]   Gap   - Train-Val AUC: -0.0577
+2025-11-03 12:28:49,039 [INFO]   Gate  - Mean: 0.1666, Std: 0.1749, Range: [0.0730, 0.7096]
+2025-11-03 12:28:49,039 [INFO]   LR    - 1.500000e-04
+2025-11-03 12:28:50,003 [INFO] 
+  ✓ New best model saved! Val AUC: 0.5698
+2025-11-03 12:28:50,003 [INFO] 
+Epoch 2/15
+2025-11-03 12:28:50,003 [INFO] --------------------------------------------------------------------------------

@@ -1,0 +1,7 @@
+Training started at 02:36 AM. Estimated completion times:
+- Epoch 1: ~03:10 AM
+- Epoch 2: ~03:30 AM  
+- Epoch 5: ~04:30 AM
+- Full training: ~06:00 AM
+
+Current time: 14:02

@@ -174,3 +174,99 @@ if __name__ == '__main__':
     print("\n" + "="*60)
     print("✅ 테스트 완료!")
     print("="*60)
+
+
+# ===== Taobao Static Features (for AutoInt/DCNv2) =====
+
+class TaobaoStaticDataset(Dataset):
+    """
+    Taobao 데이터셋 - 순차 정보 제외, 정적 특징만 사용
+    AutoInt/DCNv2 같은 비순차 모델을 위한 데이터셋
+    
+    주의: AutoInt/DCNv2는 시퀀스를 처리하지 못하므로,
+    target item/category + user/time features만 사용
+    """
+    
+    def __init__(self, data_path, metadata_path):
+        self.data = pd.read_parquet(data_path)
+        with open(metadata_path, 'rb') as f:
+            self.metadata = pickle.load(f)
+        
+        print(f"✅ Taobao Static 데이터셋 로딩 완료 (순차 정보 제외)")
+        print(f"   - 데이터 크기: {len(self.data):,} rows")
+        print(f"   - 사용 특징: target_item, target_category, user_id, hour, dayofweek")
+        print(f"   - 제외: item_history, category_history (AutoInt/DCNv2는 순차 처리 불가)")
+    
+    def __len__(self):
+        return len(self.data)
+    
+    def __getitem__(self, idx):
+        row = self.data.iloc[idx]
+        
+        # 수치형 특징 (없음)
+        num_features = torch.tensor([], dtype=torch.float32)
+        
+        # 범주형 특징만
+        cat_features = {
+            'target_item': int(row['item_id_encoded']),
+            'target_category': int(row['category_id_encoded']),
+            'user_id': int(row['user_id_encoded']),
+            'hour': int(row['hour']),
+            'dayofweek': int(row['dayofweek'])
+        }
+        
+        label = torch.tensor(row['label'], dtype=torch.float32)
+        return num_features, cat_features, label
+
+
+def collate_fn_static(batch):
+    num_features_list, cat_features_list, labels = zip(*batch)
+    
+    if len(num_features_list[0]) > 0:
+        num_features = torch.stack(num_features_list)
+    else:
+        num_features = torch.zeros(len(batch), 0, dtype=torch.float32)
+    
+    cat_features = {}
+    for key in cat_features_list[0].keys():
+        cat_features[key] = torch.tensor(
+            [item[key] for item in cat_features_list],
+            dtype=torch.long
+        )
+    
+    labels = torch.stack(labels)
+    return num_features, cat_features, labels
+
+
+def get_taobao_static_dataloader(data_path, metadata_path, batch_size=1024, shuffle=True, num_workers=0):
+    """
+    Taobao Static 데이터 로더 생성 (AutoInt/DCNv2용)
+    
+    이 로더는 시퀀스 정보를 제외하고 정적 특징만 제공합니다.
+    AutoInt/DCNv2는 순차 모델링 능력이 없으므로 공정한 비교를 위함입니다.
+    """
+    dataset = TaobaoStaticDataset(data_path, metadata_path)
+    dataloader = DataLoader(
+        dataset,
+        batch_size=batch_size,
+        shuffle=shuffle,
+        collate_fn=collate_fn_static,
+        num_workers=num_workers,
+        pin_memory=False
+    )
+    
+    cat_vocab = {
+        'target_item': dataset.metadata['vocab_sizes']['item_id'],
+        'target_category': dataset.metadata['vocab_sizes']['category_id'],
+        'user_id': dataset.metadata['vocab_sizes']['user_id'],
+        'hour': dataset.metadata['vocab_sizes']['hour'],
+        'dayofweek': dataset.metadata['vocab_sizes']['dayofweek']
+    }
+    
+    metadata = {
+        'num_features': [],
+        'cat_vocab': cat_vocab,
+        'vocab_sizes': dataset.metadata['vocab_sizes']
+    }
+    
+    return dataloader, metadata

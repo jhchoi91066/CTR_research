@@ -1,0 +1,406 @@
+================================================================================
+PHASE 3: ENHANCED REGULARIZATION RESULTS
+================================================================================
+
+EXECUTIVE SUMMARY:
+-----------------
+Phase 3 training encountered severe infrastructure limitations (20 hours per epoch
+on MPS without multiprocessing). Training was terminated after Epoch 1 to prevent
+12+ day training time. Results are classified as TIER 3 due to incomplete training,
+but Epoch 1 data shows promising regularization effects.
+
+CONFIGURATION:
+-------------
+Model: MDAF-Mamba
+Random Seed: 42
+Device: MPS (Apple Silicon GPU)
+
+Hyperparameters:
+- Dropout: 0.3 (Phase 1: 0.2)
+- Weight Decay: 5e-05 (Phase 1: 1e-05)
+- Label Smoothing: 0.1 (Phase 1: 0.0)
+- Gradient Clipping: 1.0 (unchanged)
+- Learning Rate: 3e-4 (Phase 1: 1e-3)
+- Warmup Epochs: 2
+- LR Scheduler: Cosine Annealing (Phase 1: None)
+- Max Epochs: 15 (Phase 1: 5)
+- Batch Size: 2048 (unchanged)
+
+TRAINING PERFORMANCE:
+--------------------
+Epochs Completed: 1 of 15
+Training Time: 20.3 hours for Epoch 1
+Reason for Early Termination: Infrastructure limitations (MPS backend incompatibility)
+Status: INCOMPLETE - Classified as TIER 3
+
+BEST PERFORMANCE (Epoch 1):
+--------------------------
+- Best Epoch: 1
+- Best Val AUC: 0.5698
+- Train AUC at Best: 0.5121
+- Train-Val Gap: -0.0577
+- Gate Mean at Best: 0.1666
+- Gate Std: 0.1749
+- Learning Rate: 0.00015
+
+DETAILED EPOCH 1 RESULTS:
+------------------------
+Epoch: 1
+Train Loss: 0.3799
+Train AUC: 0.5121
+Train LogLoss: 0.2939
+Val Loss: 0.3075
+Val AUC: 0.5698
+Val LogLoss: 0.2016
+Train-Val Gap: -0.0577
+Gate Mean: 0.1666
+Gate Std: 0.1749
+Gate Range: [0.0730, 0.7096]
+Learning Rate: 0.00015
+
+================================================================================
+TIER CLASSIFICATION ANALYSIS
+================================================================================
+
+TIER 3 CRITERIA (Red Light - INCOMPLETE TRAINING):
+-------------------------------------------------
+Status: TIER 3 - RED LIGHT
+
+Reason: Training incomplete due to infrastructure limitations.
+Only 1 of minimum 5 epochs completed.
+
+Research_Architect Framework Application:
+- Cannot classify as Tier 1 or Tier 2: Requires minimum 5 epochs of data
+- Best epoch = 1 < minimum expected (3-6)
+- Training trajectory unknown
+- Overfitting behavior cannot be assessed
+
+TIER 1/2 Criteria Check (for reference):
+---------------------------------------
+Tier 1 Criteria (Green Light):
+  ✗ Best Val AUC >= 0.578:        FAIL (0.5698 < 0.578)
+  ✗ Best Epoch in [3, 6]:         FAIL (1 < 3)
+  ✗ Train-Val Gap in [0.05, 0.12]: INCONCLUSIVE (-0.0577 is negative)
+  ✓ Train AUC <= 0.70:            PASS (0.5121 << 0.70)
+  ✗ Learning Curve: Convex       FAIL (insufficient data)
+
+Tier 2 Criteria (Yellow Light):
+  ✗ Best Val AUC in [0.570, 0.578): FAIL (0.5698 >= 0.578 boundary)
+  ✗ Best Epoch in [2, 7]:          FAIL (1 < 2)
+  ✓ Train-Val Gap < 0.15:         PASS (-0.0577 < 0.15)
+
+CLASSIFICATION: TIER 3 - RED LIGHT (Incomplete Training)
+
+================================================================================
+COMPARISON WITH PHASE 1 (SEED 42)
+================================================================================
+
+Phase 1 Results (Original Configuration):
+-----------------------------------------
+Epoch 1:
+- Train Loss: 0.1960, Train AUC: 0.5410
+- Val Loss: 0.1880, Val AUC: 0.5829
+- Train-Val Gap: -0.0419
+- Gate Mean: 0.3003
+
+Epoch 2:
+- Train Loss: 0.1824, Train AUC: 0.6643
+- Val Loss: 0.1916, Val AUC: 0.5703
+- Train-Val Gap: +0.0940
+- Gate Mean: 0.3799
+
+Epoch 3:
+- Train Loss: 0.1665, Train AUC: 0.7723
+- Val Loss: 0.2106, Val AUC: 0.5576
+- Train-Val Gap: +0.2147
+- Gate Mean: 0.4315
+
+Epoch 4:
+- Train Loss: 0.1506, Train AUC: 0.8368
+- Val Loss: 0.2435, Val AUC: 0.5542
+- Train-Val Gap: +0.2826
+- Gate Mean: 0.4473
+
+Epoch 5:
+- Train Loss: 0.1320, Train AUC: 0.8848
+- Val Loss: 0.2921, Val AUC: 0.5513
+- Train-Val Gap: +0.3335
+- Gate Mean: 0.4059
+
+Best Performance: Val AUC 0.5829 (Epoch 1)
+Problem: Catastrophic overfitting (Train AUC 0.88 by Epoch 5)
+
+Phase 3 Results (Enhanced Regularization):
+-----------------------------------------
+Epoch 1:
+- Train Loss: 0.3799, Train AUC: 0.5121
+- Val Loss: 0.3075, Val AUC: 0.5698
+- Train-Val Gap: -0.0577
+- Gate Mean: 0.1666
+
+Best Performance: Val AUC 0.5698 (Epoch 1)
+Status: Training incomplete
+
+COMPARISON ANALYSIS:
+-------------------
+
+1. VALIDATION PERFORMANCE:
+   Phase 1 Epoch 1: Val AUC 0.5829
+   Phase 3 Epoch 1: Val AUC 0.5698
+   Difference: -0.0131 (-2.25% relative)
+
+   Assessment: Phase 3 shows slightly lower Val AUC at Epoch 1
+
+2. TRAINING PERFORMANCE:
+   Phase 1 Epoch 1: Train AUC 0.5410
+   Phase 3 Epoch 1: Train AUC 0.5121
+   Difference: -0.0289 (-5.34% relative)
+
+   Assessment: Phase 3 shows significantly lower Train AUC (GOOD - less overfitting)
+
+3. TRAIN-VAL GAP:
+   Phase 1 Epoch 1: Gap -0.0419
+   Phase 3 Epoch 1: Gap -0.0577
+   Difference: -0.0158 (more negative)
+
+   Assessment: Phase 3 shows larger negative gap (underfitting at Epoch 1)
+
+4. LOSS VALUES:
+   Phase 1 Epoch 1: Train Loss 0.1960, Val Loss 0.1880
+   Phase 3 Epoch 1: Train Loss 0.3799, Val Loss 0.3075
+   Difference: +0.1839 train, +0.1195 val
+
+   Assessment: Higher losses due to label smoothing (expected behavior)
+
+5. GATE STATISTICS:
+   Phase 1 Epoch 1: Gate Mean 0.3003
+   Phase 3 Epoch 1: Gate Mean 0.1666
+   Difference: -0.1337 (-44.5% relative)
+
+   Assessment: DCNv3 branch contributing less in Phase 3 (Mamba branch dominant)
+
+6. OVERFITTING TRAJECTORY (Phase 1 Only):
+   Epoch 1: Gap -0.0419
+   Epoch 2: Gap +0.0940 (crossed to overfitting)
+   Epoch 3: Gap +0.2147 (severe overfitting)
+   Epoch 5: Gap +0.3335 (catastrophic overfitting)
+
+   Phase 3 trajectory unknown due to incomplete training.
+
+================================================================================
+REGULARIZATION EFFECTIVENESS ASSESSMENT
+================================================================================
+
+POSITIVE INDICATORS:
+-------------------
+1. ✓ Reduced Train AUC: 0.5121 vs 0.5410 (-5.3%)
+   → Regularization is constraining model from memorizing training data
+
+2. ✓ Higher loss values: Train 0.3799 vs 0.1960
+   → Label smoothing is active and working as intended
+
+3. ✓ Train AUC well below overfitting threshold: 0.5121 << 0.70
+   → Model not showing signs of overfitting at Epoch 1
+
+4. ✓ Stable negative gap: -0.0577
+   → Model is slightly underfitting (normal at Epoch 1 with regularization)
+
+CONCERNS:
+--------
+1. ✗ Lower Val AUC: 0.5698 vs 0.5829 (-2.25%)
+   → Regularization may be too aggressive OR training incomplete
+
+2. ✗ Larger negative gap: -0.0577 vs -0.0419
+   → Model capacity may be constrained too much
+
+3. ✗ Lower gate mean: 0.1666 vs 0.3003
+   → DCNv3 branch underutilized (potential architecture imbalance)
+
+4. ✗ Training incomplete: Only 1 epoch
+   → Cannot assess learning trajectory
+   → Cannot determine if regularization prevents overfitting in later epochs
+   → Cannot identify optimal early stopping point
+
+UNKNOWN:
+-------
+? Will Val AUC improve in later epochs?
+? Will Train-Val gap stabilize in [0.05, 0.12] range?
+? Will model converge to better performance with continued training?
+? Is the regularization preventing catastrophic overfitting?
+
+================================================================================
+INFRASTRUCTURE ANALYSIS
+================================================================================
+
+PERFORMANCE ISSUES ENCOUNTERED:
+------------------------------
+1. MPS Backend Incompatibility:
+   - PyTorch DataLoader with num_workers > 0 causes deadlocks on MPS
+   - Forced to use num_workers = 0 (single-process data loading)
+   - Result: 40x slowdown compared to Phase 1
+
+2. Training Time Comparison:
+   Phase 1 (MPS + workers): ~20-30 min/epoch
+   Phase 3 (MPS no workers): ~20 hours/epoch
+   Slowdown factor: ~40x
+
+3. Projected Completion Time:
+   - 15 epochs × 20 hours = 300 hours (12.5 days)
+   - INFEASIBLE for research timeline
+
+4. CPU Alternative Tested:
+   - Switched to CPU with multiprocessing enabled
+   - Still very slow (>45 min with no batch progress)
+   - Not viable alternative
+
+ROOT CAUSE:
+----------
+Apple Silicon MPS backend has multiprocessing limitations that are
+incompatible with PyTorch DataLoader worker processes. This is a
+known issue in PyTorch 2.x on macOS.
+
+MITIGATION ATTEMPTED:
+--------------------
+1. ✗ MPS with num_workers=0: Too slow (20 hrs/epoch)
+2. ✗ CPU with num_workers=4: Still slow (>45 min no progress)
+3. ✓ Early termination: Report partial results
+
+RECOMMENDATION:
+--------------
+Phase 4 multi-seed evaluation requires GPU-enabled infrastructure
+(CUDA or properly configured MPS environment with worker support).
+Current hardware is insufficient for production research.
+
+================================================================================
+RECOMMENDATIONS
+================================================================================
+
+IMMEDIATE RECOMMENDATION:
+------------------------
+ESCALATE TO RESEARCH_ARCHITECT
+
+Reason: TIER 3 - Incomplete training due to infrastructure limitations
+
+Options for Research_Architect:
+------------------------------
+
+OPTION 1: Accept Partial Results and Adjust Framework
+- Use Epoch 1 data to assess regularization effectiveness
+- Note positive signs: reduced train AUC, no overfitting
+- Note concerns: lower val AUC, incomplete trajectory
+- Decision: Modify Phase 3 config OR proceed to Phase 4 with adjusted expectations
+
+OPTION 2: Rerun Phase 3 on GPU Infrastructure
+- Obtain access to CUDA-enabled system
+- Rerun full 15-epoch training with exact same config
+- Expected time: 3-5 hours on modern GPU
+- Provides complete learning curve data
+
+OPTION 3: Reduce Scope for Direct Comparison
+- Rerun Phase 3 with 5 epochs (match Phase 1)
+- Estimated time: ~100 hours on current MPS (still infeasible)
+- OR: 1-2 hours on GPU
+
+OPTION 4: Adjust Regularization Configuration
+- Reduce regularization strength based on Epoch 1 results
+- Example: Dropout 0.25, Weight Decay 3e-5, Label Smoothing 0.05
+- Goal: Maintain Val AUC closer to 0.58 while preventing overfitting
+- Still requires GPU for feasible training
+
+================================================================================
+PRELIMINARY FINDINGS (Based on Epoch 1)
+================================================================================
+
+1. REGULARIZATION IS WORKING:
+   - Train AUC significantly reduced (0.5121 vs 0.5410)
+   - Model not overfitting at Epoch 1
+   - Label smoothing effect visible in loss values
+
+2. POTENTIAL OVER-REGULARIZATION:
+   - Val AUC decreased by 2.25%
+   - Larger underfitting gap at Epoch 1
+   - May need to dial back regularization strength
+
+3. ARCHITECTURAL OBSERVATION:
+   - Gate mean dropped 44.5% (0.1666 vs 0.3003)
+   - Mamba branch dominant, DCNv3 underutilized
+   - May indicate regularization affecting cross-network differently
+
+4. INCOMPLETE ASSESSMENT:
+   - Cannot confirm if regularization prevents catastrophic overfitting
+   - Cannot determine optimal stopping point
+   - Cannot assess learning curve convergence
+
+================================================================================
+DATA AVAILABILITY
+================================================================================
+
+Available Files:
+--------------
+1. Training Log: /Users/jinhochoi/Desktop/dev/Research/results/logs/mdaf_mamba_phase3_seed42_final.log
+2. Metrics CSV: /Users/jinhochoi/Desktop/dev/Research/results/phase3_metrics.csv
+3. Best Checkpoint: /Users/jinhochoi/Desktop/dev/Research/results/checkpoints/mdaf_mamba_taobao_phase3_seed42_best.pth
+4. Epoch 1 Checkpoint: /Users/jinhochoi/Desktop/dev/Research/results/checkpoints/mdaf_mamba_taobao_phase3_seed42_epoch1.pth
+5. Status Update: /Users/jinhochoi/Desktop/dev/Research/results/phase3_status_update.md
+
+Checkpoint Contents:
+-------------------
+- Model state dict (full weights)
+- Optimizer state dict
+- Scheduler state dict
+- Training metrics (train_auc, val_auc, gap)
+- Gate statistics
+- Full configuration
+
+Data Integrity:
+--------------
+✓ Exact Phase 3 configuration used
+✓ Seed 42 (matches Phase 1)
+✓ All hyperparameters verified
+✓ Same dataset and preprocessing
+✓ Checkpoints saved successfully
+
+MISSING DATA (due to incomplete training):
+-----------------------------------------
+✗ Epochs 2-15 metrics
+✗ Learning curve trajectory
+✗ Optimal early stopping point
+✗ Overfitting prevention confirmation
+✗ Multi-seed variance data
+
+================================================================================
+CONCLUSION
+================================================================================
+
+TIER CLASSIFICATION: TIER 3 - RED LIGHT
+
+Phase 3 training encountered infrastructure limitations that prevented
+completion. Epoch 1 results show promising regularization effects
+(reduced train AUC, no overfitting) but also concerns (lower val AUC,
+potential over-regularization).
+
+The incomplete training prevents definitive assessment of whether
+enhanced regularization achieves the Phase 3 goal of:
+- Best epoch shifting from 1 to 3-5
+- Train-Val gap stabilizing at 0.05-0.12
+- Preventing catastrophic overfitting
+
+NEXT STEP: ESCALATE TO RESEARCH_ARCHITECT
+
+Provide this report with:
+1. Infrastructure limitation analysis
+2. Partial Epoch 1 results
+3. Comparison with Phase 1
+4. Recommendations for proceeding
+
+DECISION REQUIRED:
+- Accept partial results and adjust framework?
+- Rerun on GPU infrastructure?
+- Modify regularization configuration?
+- Skip to Phase 4 with current understanding?
+
+================================================================================
+Prepared by: ML_Experimenter
+Date: November 3, 2025
+Status: AWAITING RESEARCH_ARCHITECT DECISION
+================================================================================

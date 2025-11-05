@@ -154,15 +154,19 @@ class BST(nn.Module):
         # 5. Output layer
         self.output_layer = nn.Linear(prev_dim, 1)
 
-    def forward(self, target_item, target_category, item_history, other_features):
+    def forward(self, target_item, target_category, item_history, other_features, return_embedding=False):
         """
         Args:
             target_item: (batch_size,) - 타겟 아이템 ID
             target_category: (batch_size,) - 타겟 카테고리 ID
             item_history: (batch_size, seq_len) - 아이템 시퀀스 (0 is padding)
             other_features: dict of {name: (batch_size,)}
+            return_embedding: if True, return intermediate embedding for MDAF
         Returns:
-            output: (batch_size,) - 예측 확률
+            If return_embedding=True:
+                seq_pooled: (batch_size, embed_dim) - attention-pooled sequence embedding
+            Else:
+                output: (batch_size,) - 예측 확률
         """
         batch_size = target_item.size(0)
         seq_len = item_history.size(1)
@@ -198,6 +202,10 @@ class BST(nn.Module):
 
         # Weighted sum of sequence embeddings
         seq_pooled = torch.sum(seq_embed * attn_weights.unsqueeze(-1), dim=1)  # (batch, embed_dim)
+
+        # For MDAF: return attention-pooled sequence embedding
+        if return_embedding:
+            return seq_pooled
 
         # 6. Other feature embeddings
         other_embeds = []

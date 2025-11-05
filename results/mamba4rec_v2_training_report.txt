@@ -1,0 +1,66 @@
+================================================================================
+Mamba4Rec V2 Training Report
+================================================================================
+
+TRAINING CONFIGURATION:
+--------------------------------------------------------------------------------
+  data_dir: data/processed/taobao
+  item_embed_dim: 64
+  category_embed_dim: 32
+  static_embed_dim: 16
+  hidden_dim: 128
+  num_layers: 2
+  d_state: 16
+  d_conv: 4
+  expand: 2
+  mlp_hidden_dims: [256, 128, 64]
+  dropout: 0.3
+  weight_decay: 5e-05
+  label_smoothing: 0.05
+  grad_clip_norm: 1.0
+  batch_size: 2048
+  epochs: 20
+  lr: 0.001
+  warmup_epochs: 2
+  min_lr_ratio: 0.1
+  early_stopping_patience: 5
+  early_stopping_min_delta: 0.0005
+  log_file: results/mamba4rec_taobao_v2_training.log
+  checkpoint_dir: results/checkpoints
+  report_file: results/mamba4rec_v2_training_report.txt
+
+V2 IMPROVEMENTS OVER V1:
+--------------------------------------------------------------------------------
+  - Dropout: 0.2 → 0.3
+  - Weight Decay: 1e-5 → 5e-5
+  - Label Smoothing: 0.05 (NEW)
+  - Gradient Clipping: max_norm=1.0 (NEW)
+  - LR Schedule: Warmup + Cosine Annealing (NEW)
+  - Early Stopping Patience: 3 → 5
+
+FINAL RESULTS:
+--------------------------------------------------------------------------------
+  Best Epoch: 3
+  Best Val AUC: 0.5716
+  Train AUC at best epoch: 0.6272
+  Train-Val Gap: 0.0557
+
+COMPARISON WITH BASELINES:
+--------------------------------------------------------------------------------
+  V1 Val AUC: 0.5814
+  V2 Val AUC: 0.5716
+  Change: -0.98%p
+
+  BST Val AUC: 0.5711
+  V2 Val AUC: 0.5716
+  Improvement: +0.05%p
+
+SUCCESS CRITERIA EVALUATION:
+--------------------------------------------------------------------------------
+  1. Train AUC in [0.60, 0.70]: 0.6272 - PASS
+  2. Val AUC >= 0.5730: 0.5716 - FAIL
+  3. Train-Val gap <= 0.08: 0.0557 - PASS
+  4. No validation collapse: PASS
+
+  OVERALL: NEEDS FURTHER TUNING
+================================================================================

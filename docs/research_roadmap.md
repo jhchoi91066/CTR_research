@@ -4,6 +4,38 @@
 
 ---
 
+## 🎯 핵심 연구 전략: 두 데이터셋 접근법
+
+### 왜 Criteo와 Taobao 두 데이터셋을 함께 사용하는가?
+
+MDAF는 **두 가지 핵심 능력**을 결합한 하이브리드 모델입니다:
+
+1. **정적 특징 상호작용 모델링** (DCNv3)
+2. **동적 순차 행동 모델링** (Mamba4Rec)
+
+각 능력을 가장 엄격하게 검증하기 위해, 두 데이터셋을 전략적으로 활용합니다:
+
+#### Criteo 데이터셋의 역할
+- **특성**: 13개 수치형 + 26개 고차원 범주형 특징
+- **핵심 과제**: 복잡한 특징 간 상호작용 학습
+- **검증 대상**: **DCNv3 구성요소**의 특징 상호작용 능력
+- **비교 베이스라인**: xDeepFM, DCNv2, AutoInt (특징 상호작용 모델)
+- **목표**: "DCNv3가 Criteo의 복잡한 정적 특징들을 SOTA 수준으로 학습하는가?"
+
+#### Taobao 데이터셋의 역할
+- **특성**: 사용자 행동 시퀀스, 시간적 의존성
+- **핵심 과제**: 사용자 관심사의 동적 변화 포착
+- **검증 대상**: **Mamba4Rec 구성요소**의 순차 모델링 능력
+- **비교 베이스라인**: BST, DIN (순차 추천 모델)
+- **목표**: "Mamba4Rec이 사용자 행동 패턴을 BST보다 효율적으로 학습하는가?"
+
+#### 전략적 의의
+> MDAF가 **두 데이터셋 모두**에서 우수한 성능을 보이면, 이는 단순히 두 모델을 합친 것이 아니라 **각기 다른 데이터 특성에 적응하는 진정한 하이브리드 모델**임을 증명합니다.
+
+마치 10종 경기 선수가 단거리와 투포환 모두에서 뛰어난 것처럼, MDAF는 정적/동적 신호 모두를 효과적으로 활용하는 종합적 우수성을 입증합니다.
+
+---
+
 ## 월 1 (Week 1-4): 환경 설정 및 문헌 연구
 
 ### 목표
@@ -79,21 +111,30 @@ Criteo와 Taobao 데이터셋을 준비하고, 모든 베이스라인 모델의 
 - Train/Val/Test 분할
 - Parquet 형식으로 저장
 
-#### Week 7: 베이스라인 모델 구축 (Criteo)
+#### Week 7: 베이스라인 모델 구축 - Criteo (특징 상호작용 검증용)
 - `deepctr-torch`를 활용한 구현:
   - **DeepFM**: 1차/2차 특징 상호작용
-  - **xDeepFM**: CIN 레이어
-  - **DCNv2**: Cross Network v2
+  - **xDeepFM**: CIN 레이어 (DCNv3와 비교 대상)
+  - **DCNv2**: Cross Network v2 (DCNv3와 비교 대상)
   - **AutoInt**: Multi-head Self-Attention
 - 소규모 샘플 데이터로 학습 파이프라인 검증
 - 평가 지표 계산: AUC, Logloss
 - 실험 결과 로깅 시스템 구축
 
-#### Week 8: 베이스라인 모델 구축 (Taobao)
+**목표**: DCNv3의 성능 비교를 위한 Criteo 베이스라인 확보
+
+#### Week 8: 베이스라인 모델 구축 - Taobao (순차 모델링 검증용)
 - 순차 모델 구현:
-  - **BST**: Transformer 기반 순차 모델링
+  - **BST**: Transformer 기반 순차 모델링 (Mamba4Rec과 비교 대상)
+  - **DeepFM/AutoInt (Taobao 버전)**: 교차 검증용
 - Taobao 데이터셋으로 학습 파이프라인 검증
 - 두 데이터셋에 대한 통합 실험 프레임워크 완성
+
+**목표**: Mamba4Rec의 성능 비교를 위한 Taobao 베이스라인 확보
+
+**중요**:
+- Criteo 베이스라인: xDeepFM, DCNv2, AutoInt 등 특징 상호작용 모델
+- Taobao 베이스라인: BST + 최소 1-2개의 추가 모델 (공정한 비교를 위해)
 
 ---
 
@@ -161,25 +202,58 @@ MDAF 모델을 완전히 구현하고, 각 구성 요소의 정상 동작을 확
 - 베이스라인 모델들도 동일하게 튜닝
 
 #### Week 14: 전체 데이터셋 학습 및 평가
+
+**두 데이터셋 실험 전략**:
+
+**실험 1: Criteo 데이터셋 (특징 상호작용 능력 검증)**
 - 튜닝된 최적 하이퍼파라미터 사용
-- **5개 랜덤 시드**로 모든 모델 학습:
-  - 베이스라인 6종 (DeepFM, xDeepFM, DCNv2, BST, AutoInt, DCNv3)
-  - MDAF
-- 테스트셋 평가: **AUC**, **Logloss**
+- **5개 랜덤 시드**로 다음 모델 학습:
+  - 베이스라인: DeepFM, xDeepFM, DCNv2, AutoInt
+  - DCNv3 (단독): MDAF의 구성요소 검증
+  - **MDAF (Full)**: 최종 모델
+- 검증 목표: "DCNv3와 MDAF가 Criteo의 복잡한 특징 상호작용을 SOTA 수준으로 학습하는가?"
+- 기대: MDAF > DCNv3 (단독) > xDeepFM/DCNv2
+
+**실험 2: Taobao 데이터셋 (순차 모델링 능력 검증)**
+- 튜닝된 최적 하이퍼파라미터 사용
+- **5개 랜덤 시드**로 다음 모델 학습:
+  - 베이스라인: BST, DeepFM (Taobao), AutoInt (Taobao)
+  - Mamba4Rec (단독): MDAF의 구성요소 검증
+  - **MDAF (Full)**: 최종 모델
+- 검증 목표: "Mamba4Rec과 MDAF가 사용자 행동 순서를 BST보다 효율적으로 학습하는가?"
+- 기대: MDAF > Mamba4Rec (단독) > BST
+
+**공통 평가**:
+- 테스트셋 평가: **AUC**, **Logloss**, **추론 속도**
 - 평균 및 표준편차 계산
 - 학습 곡선 및 수렴 속도 비교
+- 통계적 유의성 검정 (paired t-test, p < 0.001)
 
 #### Week 15: Ablation Study 및 분석
-- **Ablation 실험**:
-  1. MDAF w/o DCNv3 (Mamba만)
-  2. MDAF w/o Mamba (DCNv3만)
-  3. MDAF with Concatenation (게이트 제거)
-  4. MDAF with Fixed Fusion (고정 가중치)
-- 각 구성 요소의 기여도 정량화
-- **정성적 분석**:
-  - 게이트 값 분포 시각화
-  - 다양한 샘플에서의 융합 패턴 분석
-  - DCN vs Mamba의 선택적 활성화 케이스 분석
+
+**Ablation 실험 (두 데이터셋 모두에서 수행)**:
+
+**변형 모델**:
+  1. **MDAF-Full**: DCNv3 + Mamba4Rec + Adaptive Fusion (전체)
+  2. **MDAF w/o Fusion**: DCNv3 + Mamba4Rec (단순 concatenation)
+  3. **DCNv3 only**: DCNv3만 사용
+  4. **Mamba4Rec only**: Mamba4Rec만 사용
+
+**분석 목표**:
+- **Criteo 결과 해석**:
+  - DCNv3 only vs Mamba only → Criteo에서는 DCNv3가 더 중요함을 예상
+  - MDAF-Full vs DCNv3 only → Mamba가 추가 기여하는가?
+  - MDAF-Full vs w/o Fusion → Adaptive Fusion의 효과
+
+- **Taobao 결과 해석**:
+  - Mamba only vs DCNv3 only → Taobao에서는 Mamba가 더 중요함을 예상
+  - MDAF-Full vs Mamba only → DCNv3가 추가 기여하는가?
+  - MDAF-Full vs w/o Fusion → Adaptive Fusion의 효과
+
+**정성적 분석**:
+  - 게이트 값 분포 시각화 (데이터셋별)
+  - Criteo vs Taobao에서의 융합 패턴 차이
+  - DCNv3/Mamba의 상대적 기여도 분석
 
 #### Week 16: 결과 정리 및 논문 초안 작성
 - 모든 실험 결과를 표로 정리
