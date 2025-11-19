@@ -38,6 +38,8 @@ checkpoints/*.pt
 checkpoints/*.pth
 results/checkpoints/*.pt
 results/checkpoints/*.pth
+docs/mdaf_results/*.pth
+docs/mdaf_results/*.pt
 
 # Training logs (can be large)
 results/*.log
