@@ -62,3 +62,35 @@ Thumbs.db
 # Temporary files
 *.tmp
 nohup.out
+
+# Docs - Exclude draft/temp files (keep only final papers)
+docs/baseline_results_summary.md
+docs/bst.md
+docs/bst_implementation_verification.md
+docs/create_paper_docx.js
+docs/external/
+docs/mamba_paper/
+docs/mdaf_experimental_plan.md
+docs/mdaf_implementation_report.md
+docs/new_plan.md
+docs/node_modules/
+docs/package*.json
+docs/project_status.md
+docs/research_roadmap.md
+docs/streamlined_research_plan.md
+docs/졸업논문_양식*.docx
+
+# Experiments - Exclude Colab and debug files
+experiments/colab_*.py
+experiments/debug_*.py
+experiments/preprocessing.py
+experiments/verify_preprocessing.py
+
+# Thesis folder (managed separately)
+thesis/
+
+# Test and temporary folders
+test-marketplace/
+ml-1m/
+ml-1m.zip
+=*
